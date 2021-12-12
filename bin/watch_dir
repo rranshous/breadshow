@@ -10,5 +10,7 @@ do
   video_from_images $TARGETDIR $TARGETDIR/slideshow-new.mp4
   mv $TARGETDIR/slideshow-new.mp4 $TARGETDIR/slideshow.mp4
   echo "last generated `date`"
-  sleep 300
+  SLEEPTIME=$(( ( RANDOM % 3000 )  + 1 ))
+  echo "sleeping for $SLEEPTIME"
+  sleep $SLEEPTIME
 done
