@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -x
+
+DATADIR=$1
+OUTFILE=$2
+UNIQUE=`date +%s`
+FILELIST=/tmp/$UNIQUE.txt
+
+# create a list of the files, which have data
+find $DATADIR -maxdepth 1 -type f -size +1k -printf "%f\n" | \
+  sort -R | \
+  xargs -I{} echo "file '$DATADIR/{}'" > $FILELIST
+
+FPS=$(( ( RANDOM % 30 )  + 1 ))
+echo "FPS: $FPS"
+
+# fire up ffmpeg to create video
+ffmpeg -y \
+       -f concat -safe 0 -r $FPS -i $FILELIST \
+       -vf "scale=w=1024:h=768:force_original_aspect_ratio=decrease,pad=1024:768:(ow-iw)/2:(oh-ih)/2" \
+       -c:v libx264 \
+       -r $FPS \
+       $OUTFILE
+
+# remove the file list
+rm $FILELIST

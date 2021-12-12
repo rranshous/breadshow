@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -x
+
+TARGETDIR=$1
+
+while true
+do
+  echo "creating slideshow for $TARGETDIR"
+  video_from_images $TARGETDIR $TARGETDIR/slideshow-new.mp4
+  mv $TARGETDIR/slideshow-new.mp4 $TARGETDIR/slideshow.mp4
+  echo "last generated `date`"
+  sleep 300
+done
