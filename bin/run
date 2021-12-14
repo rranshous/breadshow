@@ -2,11 +2,5 @@
 
 set -x
 
-BASEPATH=/data/infoshower/
-
-for name in `ls $BASEPATH`
-do
-  docker kill breadshow-$name || true
-  docker rm breadshow-$name || true
-  docker run -d --name=breadshow-$name --restart=always -v $BASEPATH/$name/:/data rranshous/breadshow
-done
+bin/watch_dirs /data/infoshower/
+bin/watch_dirs /data/cellphone/
